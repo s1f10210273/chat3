@@ -2,7 +2,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Detail page</title>
+    <title>{{  article.title }}</title>
     <meta charset="UTF-8">
     <meta name="author" content="INIAD">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet"
@@ -12,7 +12,7 @@
   <body>
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
       <div class="container-fluid">
-          <a class="navbar-brand" href="/top">知恵袋</a>
+          <a class="navbar-brand" href="/top">掲示板</a>
           <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
               data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
               aria-label="Toggle navigation">
@@ -21,14 +21,13 @@
           <div class="collapse navbar-collapse" id="navbarSupportedContent">
               <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                   <li class="nav-item">
-                      <a class="nav-link active" href="/">質問</a>
+                      <a class="nav-link active" href="/">新規作成</a>
                   </li>
               </ul>
           </div>
       </div>
   </nav>
   <div style="margin-top: 70px; margin-left: 150px; margin-right: 150px;">
-    <h1>Question</h1>
     <div class="card" style="margin-top: 20px;">
       <div class="card-body">
           <h2 class="card-title">{{  article.title }}</h2>
@@ -38,44 +37,40 @@
           </div>
       </div>
   </div>
-    
-    <form action="{% url 'detail' article.id %}" method="post">
-      {% csrf_token %}
-      <div>
-        <label for="textInput" class="form-label"><h1 style="margin-top: 30px;">Answer</h1></label><br>
-        <textarea id="textInput" name="text" rows="3" class="form-control"></textarea>
-      </div>
-      <div style="text-align: center; margin-top: 10px;">
-        <button type="submit" class="btn btn-primary">回答する</button>
-      </div>
-    </form>
 
     
-    <div style="margin-top: 70px;">
+    <div style="margin-top: 70px; margin-bottom: 200px;">
       <hr>
     {% if comments %}
     {% for comment in comments %}
     <div class="card" style="margin-top: 20px;">
       <div class="card-body">
           <div class="card-text">
-              {{ article.body |linebreaksbr }}
+            {{ comment.text | linebreaksbr }}
           </div>
 
-    <div style="text-align: right;"><small>[{{ article.posted_at }}]</small></div>
+    <div style="text-align: right;"><small>[{{ comment.posted_at }}]</small></div>
   </div></div>
     {% endfor %}
     {% else %}
-    <p>No Answer.</p>
+    <p></p>
     {% endif %}
     </div></div>
+    
 
-    <hr>
+    <div style="position: fixed; bottom:0px; right:0px; left:0px; background-color: rgba(255, 255, 255, 0.404); border-top:solid thin black;">
+    
+    <form action="{% url 'detail' article.id %}" method="post" style="margin-left: 20px; margin-right: 20px; margin-bottom: 20px;">
+      {% csrf_token %}
+      <div>
+        <label for="textInput" class="form-label"></label><br>
+        <textarea id="textInput" name="text" rows="2" class="form-control"></textarea>
+      </div>
+      <div style="text-align: right; margin-top: 10px;">
+        <button type="submit" class="btn btn-primary">送信</button>
+      </div>
+    </form></div>
 
-      <ul class="pagination" style="text-align: center;">
-        <li class="page-item"><a class="page-link" href="{% url 'index' %}">Top</a></li>
-        <li class="page-item"><a class="page-link" href="{% url 'update' article.id %}">Edit</a></li>
-        <li class="page-item"><a class="page-link" href="{% url 'delete' article.id %}">Delete</a></li>
-      </ul>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.min.js"
         integrity="sha384-QJHtvGhmr9XOIpI6YVutG+2QOK9T+ZnN4kzFN1RtK3zEFEIsxhlmWl5/YESvpZ13" crossorigin="anonymous">
     </script>
